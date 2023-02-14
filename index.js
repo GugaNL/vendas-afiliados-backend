@@ -10,6 +10,7 @@ const handle404Error = require('./src/middlewares/handle404Error');
 
 //Routes
 const userRoute = require('./src/routers/user.route');
+const categoryRoute = require('./src/routers/category.route');
 const productRoute = require('./src/routers/product.route');
 const imageRoute = require('./src/routers/image.route');
 const handleError = require('./src/middlewares/handleError');
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(bodyPaser.urlencoded({ extended: true }));
 app.use(bodyPaser.json());
 app.use('/api/usuario', userRoute);
+app.use('/api/categoria', categoryRoute);
 app.use('/api/produto', productRoute);
 app.use('/api/imagem', imageRoute);
 app.use(handle404Error);

@@ -14,8 +14,8 @@ const create = async function (user) {
   }
 
   user.password = await bcrypt.hashSync(user.password, ~~process.env.SALT);
-  const userCriado = await userRepository.create(user);
-  return userCriado;
+  const userCreated = await userRepository.create(user);
+  return userCreated;
 };
 
 const listUsers = async function () {
