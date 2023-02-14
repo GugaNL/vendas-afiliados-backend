@@ -3,7 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-      //Product.hasOne(models.Category, { foreignKey: "categoryId" });
+      Product.belongsTo(models.Category, { foreignKey: "categoryId" });
     }
   }
   Product.init(
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       store: DataTypes.STRING,
       mainImage: DataTypes.STRING,
       linkAfiliate: DataTypes.STRING,
-      category: DataTypes.STRING,
+      categoryId: DataTypes.INTEGER,
       data: DataTypes.DATE,
       oldPrice: DataTypes.DECIMAL(20, 2),
       newPrice: DataTypes.DECIMAL(20, 2),

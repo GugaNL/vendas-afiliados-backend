@@ -23,8 +23,12 @@ module.exports = {
       linkAfiliate: {
         type: Sequelize.STRING
       },
-      category: {
-        type: Sequelize.STRING
+      categoryId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'category',
+          key: 'id'
+        }
       },
       data: {
         type: Sequelize.DATE

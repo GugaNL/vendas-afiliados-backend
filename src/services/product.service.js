@@ -1,10 +1,17 @@
 const productRepository = require("../repositories/product.repository");
+const categoryRepository = require("../repositories/category.repository");
 const imageRepository = require("../repositories/image.repository");
 require("dotenv").config();
 const createError = require("http-errors");
 const fs = require("fs");
 
 const create = async function (product) {
+
+  const categoryExists = await categoryRepository.findCategory(product.categoryId);
+
+  if (!categoryExists) {
+    return createError(409, "Categoria não encontrada");
+  }
 
   const arrayImages = product.images || [];
 
