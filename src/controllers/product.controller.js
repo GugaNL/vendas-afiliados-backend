@@ -1,5 +1,4 @@
 const productService = require("../services/product.service");
-const imageService = require("../services/image.service");
 const { validationResult } = require("express-validator");
 const createError = require("http-errors");
 const multer = require("multer");
@@ -57,12 +56,9 @@ const find = async function (req, res, next) {
       throw responseProduct;
     }
 
-    const responseImage = await imageService.listWhere(req.params.id);
-
     res.send({
       success: true,
-      product: responseProduct,
-      images: responseImage,
+      product: responseProduct
     });
   } catch (error) {
     return next(error);
@@ -79,7 +75,7 @@ const update = async function (req, res, next) {
 
     if (req.files && req.files.length > 0) {
       const { files = [] } = req;
-      await imageService.create(files, req.params.id);
+      req.body.images = files;
     }
 
     const response = await productService.update(req.body, req.params.id);

@@ -1,8 +1,8 @@
 const { User } = require("../database/models/index");
 
 const create = async function (user) {
-  const userCriado = await User.create(user);
-  return userCriado;
+  const userCreated = await User.create(user);
+  return userCreated;
 };
 
 const listUsers = async function () {

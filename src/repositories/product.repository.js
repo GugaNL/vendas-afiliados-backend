@@ -1,21 +1,10 @@
-const { Product, Image } = require("../database/models/index");
-const imageRepository = require("./image.repository");
-const db = require("../database/models/index");
+const { Product } = require("../database/models/index");
 
-const create = async function (product, images = []) {
-  const t = await db.sequelize.transaction();
-
+const create = async function (product) {
   try {
     const productCreated = await Product.create(product);
-
-    images.length > 0 &&
-      productCreated.id &&
-      (await imageRepository.create(images, productCreated.id));
-
-    await t.commit();
     return productCreated;
   } catch (error) {
-    await t.rollback();
     return error;
   }
 };
@@ -56,14 +45,9 @@ const update = async function (product, id) {
 
 
 const remove = async function (id) {
-  const t = await db.sequelize.transaction();
-
   try {
-    await imageRepository.removeByProduct(id);
-
     return await Product.destroy({ where: { id } });
   } catch (error) {
-    await t.rollback();
     return error;
   }
 };

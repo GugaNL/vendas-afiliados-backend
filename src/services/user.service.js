@@ -40,6 +40,7 @@ const updateUser = async function (user, id) {
     return createError(404, "Usuário não existe");
   }
 
+  user.password = await bcrypt.hashSync(user.password, ~~process.env.SALT);
   await userRepository.updateUser(user, id);
 
   return await userRepository.findUser(id);

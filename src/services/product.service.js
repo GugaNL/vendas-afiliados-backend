@@ -1,13 +1,13 @@
 const productRepository = require("../repositories/product.repository");
 const categoryRepository = require("../repositories/category.repository");
-const imageRepository = require("../repositories/image.repository");
 require("dotenv").config();
 const createError = require("http-errors");
 const fs = require("fs");
 
 const create = async function (product) {
-
-  const categoryExists = await categoryRepository.findCategory(product.categoryId);
+  const categoryExists = await categoryRepository.findCategory(
+    product.categoryId
+  );
 
   if (!categoryExists) {
     return createError(409, "Categoria não encontrada");
@@ -15,9 +15,13 @@ const create = async function (product) {
 
   const arrayImages = product.images || [];
 
-  product.mainImage = arrayImages.length > 0 ? arrayImages[0]?.location : "";
+  if (arrayImages.length > 0) {
+    product.imageFilename = arrayImages[0]?.filename;
+    product.imagePath = arrayImages[0]?.path;
+    product.imageMimetype = arrayImages[0]?.mimetype;
+  }
 
-  const productCreated = await productRepository.create(product, arrayImages);
+  const productCreated = await productRepository.create(product);
   return productCreated;
 };
 
@@ -54,12 +58,23 @@ const update = async function (product, id) {
     return createError(404, "Produto não encontrado");
   }
 
-  const imagesUrls = await imageRepository.listWhere(id);
+  const arrayImages = product.images || [];
 
-  if (imagesUrls && imagesUrls.length > 0) {
-    product.mainImage = imagesUrls[0]?.path || "";
-  } else {
-    product.mainImage = "";
+  if (arrayImages.length > 0) {
+    const productWithImage = await productRepository.find(id);
+
+    if (productWithImage.imagePath) {
+      const filePath = productWithImage.imagePath.replace(/\\/g, "/");
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          return;
+        }
+      });
+    }
+
+    product.imageFilename = arrayImages[0]?.filename;
+    product.imagePath = arrayImages[0]?.path;
+    product.imageMimetype = arrayImages[0]?.mimetype;
   }
 
   await productRepository.update(product, id);
@@ -74,17 +89,13 @@ const remove = async function (id) {
     return createError(404, "Produto não encontrado");
   }
 
-  const imagesToRemove = await imageRepository.listWhere(id);
-
-  if (imagesToRemove && imagesToRemove.length > 0) {
-    for (let i = 0; i < imagesToRemove.length; i++) {
-      const filePath = imagesToRemove[i]?.path.replace(/\\/g, "/");
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          return;
-        }
-      });
-    }
+  if (product.imagePath) {
+    const filePath = product.imagePath.replace(/\\/g, "/");
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        return;
+      }
+    });
   }
 
   await productRepository.remove(id);
