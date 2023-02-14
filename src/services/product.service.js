@@ -52,13 +52,22 @@ const find = async function (id) {
 };
 
 const update = async function (product, id) {
+  const arrayImages = product.images || [];
   const productExists = await productRepository.find(id);
 
   if (!productExists) {
+    //Remove image that was uploaded
+    if (arrayImages.length > 0) {
+      const filePath = arrayImages[0]?.path.replace(/\\/g, "/");
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          return;
+        }
+      });
+    }
+
     return createError(404, "Produto não encontrado");
   }
-
-  const arrayImages = product.images || [];
 
   if (arrayImages.length > 0) {
     const productWithImage = await productRepository.find(id);
