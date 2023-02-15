@@ -9,8 +9,12 @@ const create = async function (product) {
   }
 };
 
-const list = async function () {
-  const products = await Product.findAll();
+const list = async function (page, limit) {
+  const skip = (page - 1) * limit;
+  const products = await Product.findAll({
+    offset: skip,
+    limit
+  });
   return products;
 };
 

@@ -25,8 +25,8 @@ const create = async function (product) {
   return productCreated;
 };
 
-const list = async function () {
-  const products = await productRepository.list();
+const list = async function (page, limit) {
+  const products = await productRepository.list(page, limit);
   return products;
 };
 

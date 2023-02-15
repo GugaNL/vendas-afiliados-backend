@@ -34,7 +34,10 @@ const create = async function (req, res, next) {
 
 const list = async function (req, res, next) {
   try {
-    const response = await productService.list(req.body);
+    const page = req.page ? parseInt(req.page) : 1;
+    const limit = req.limit ? parseInt(req.limit) : 10;
+
+    const response = await productService.list(page, limit);
 
     res.send({ success: true, products: response });
   } catch (error) {
