@@ -30,6 +30,11 @@ const list = async function (page, limit) {
   return products;
 };
 
+const listLight = async function (page, limit) {
+  const products = await productRepository.listLight(page, limit);
+  return products;
+};
+
 const listWhere = async function (id, where) {
   const productExists = await productRepository.find(id);
 
@@ -115,6 +120,7 @@ const remove = async function (id) {
 module.exports = {
   create,
   list,
+  listLight,
   listWhere,
   find,
   update,

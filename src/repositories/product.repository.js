@@ -12,6 +12,15 @@ const create = async function (product) {
 const list = async function (page, limit) {
   const skip = (page - 1) * limit;
   const products = await Product.findAndCountAll({
+    offset: skip,
+    limit
+  });
+  return products;
+};
+
+const listLight = async function (page, limit) {
+  const skip = (page - 1) * limit;
+  const products = await Product.findAndCountAll({
     attributes: ['id', 'title', 'store', 'categoryId'],
     offset: skip,
     limit
@@ -60,6 +69,7 @@ const remove = async function (id) {
 module.exports = {
   create,
   list,
+  listLight,
   listWhere,
   find,
   findWhere,
