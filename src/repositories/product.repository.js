@@ -11,7 +11,8 @@ const create = async function (product) {
 
 const list = async function (page, limit) {
   const skip = (page - 1) * limit;
-  const products = await Product.findAll({
+  const products = await Product.findAndCountAll({
+    attributes: ['id', 'title', 'store', 'categoryId'],
     offset: skip,
     limit
   });
