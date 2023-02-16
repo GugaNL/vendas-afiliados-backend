@@ -22,6 +22,7 @@ app.use('/api/categoria', categoryRoute);
 app.use('/api/produto', productRoute);
 app.use(handle404Error);
 app.use(handleError);
+//app.use('/resources/uploads', express.static('images'));
 
 const server = app.listen(process.env.PORT || 5000, () => {
   console.log("rodando");

@@ -1,4 +1,5 @@
 const categoryRepository = require("../repositories/category.repository");
+const productRepository = require("../repositories/product.repository");
 require("dotenv").config();
 const createError = require("http-errors");
 
@@ -47,6 +48,14 @@ const deleteCategory = async function (id) {
 
   if (!category) {
     return createError(404, "Categoria não encontrada");
+  }
+
+  const productUsingCategory = await productRepository.findWhere({
+    categoryId: id,
+  });
+
+  if (productUsingCategory) {
+    return createError(409, "A categoria está sendo usada por um produto");
   }
 
   await categoryRepository.deleteCategory(id);
