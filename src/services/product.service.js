@@ -35,6 +35,11 @@ const listLight = async function (page, limit) {
   return products;
 };
 
+const listRandomIframesByStore = async function (page, limit) {
+  const products = await productRepository.listRandomIframesByStore(page, limit);
+  return products;
+};
+
 const listWhere = async function (id, where) {
   const productExists = await productRepository.find(id);
 
@@ -122,6 +127,7 @@ module.exports = {
   list,
   listLight,
   listWhere,
+  listRandomIframesByStore,
   find,
   update,
   remove,

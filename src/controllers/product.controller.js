@@ -58,6 +58,19 @@ const listLight = async function (req, res, next) {
   }
 };
 
+const listRandomIframesByStore = async function (req, res, next) {
+  try {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+    const response = await productService.listRandomIframesByStore(page, limit);
+
+    res.send({ success: true, products: response });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const find = async function (req, res, next) {
   try {
     const errors = validationResult(req);
@@ -175,6 +188,7 @@ module.exports = {
   create,
   list,
   listLight,
+  listRandomIframesByStore,
   find,
   update,
   remove,

@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Product } = require("../database/models/index");
 
 const create = async function (product) {
@@ -12,6 +13,7 @@ const create = async function (product) {
 const list = async function (page, limit) {
   const skip = (page - 1) * limit;
   const products = await Product.findAndCountAll({
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
     offset: skip,
     limit
   });
@@ -35,6 +37,19 @@ const listWhere = async function (where) {
 
   return products;
 };
+
+const listRandomIframesByStore = async function () {
+  const products = await Product.findAll({
+    attributes: ['id', 'iframeUrl'],
+    where: {
+      iframeUrl: {
+        [Op.not]: null
+      }
+    }
+  });
+
+  return products;
+}
 
 const find = async function (id) {
   const product = await Product.findByPk(id);
@@ -71,6 +86,7 @@ module.exports = {
   list,
   listLight,
   listWhere,
+  listRandomIframesByStore,
   find,
   findWhere,
   update,
