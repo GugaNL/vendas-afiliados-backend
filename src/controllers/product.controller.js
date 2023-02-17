@@ -62,8 +62,9 @@ const listRandomIframesByStore = async function (req, res, next) {
   try {
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const { idsToExclude } = req.body || [];
 
-    const response = await productService.listRandomIframesByStore(page, limit);
+    const response = await productService.listRandomIframesByStore(page, limit, idsToExclude);
 
     res.send({ success: true, products: response });
   } catch (error) {

@@ -38,10 +38,13 @@ const listWhere = async function (where) {
   return products;
 };
 
-const listRandomIframesByStore = async function () {
+const listRandomIframesByStore = async function (page, limit, idsToExclude) {
   const products = await Product.findAll({
     attributes: ['id', 'iframeUrl'],
     where: {
+      id: {
+        [Op.not]: idsToExclude
+      },
       iframeUrl: {
         [Op.not]: null
       }

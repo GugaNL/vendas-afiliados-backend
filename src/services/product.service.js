@@ -35,8 +35,8 @@ const listLight = async function (page, limit) {
   return products;
 };
 
-const listRandomIframesByStore = async function (page, limit) {
-  const products = await productRepository.listRandomIframesByStore(page, limit);
+const listRandomIframesByStore = async function (page, limit, idsToExclude) {
+  const products = await productRepository.listRandomIframesByStore(page, limit, idsToExclude);
   return products;
 };
 
