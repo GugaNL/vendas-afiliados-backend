@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       newPrice: DataTypes.DECIMAL(20, 2),
       discount: DataTypes.INTEGER,
       obs1: DataTypes.STRING,
-      obs2: DataTypes.STRING
+      obs2: DataTypes.STRING,
+      iframeUrl: DataTypes.STRING
     },
     {
       sequelize,
