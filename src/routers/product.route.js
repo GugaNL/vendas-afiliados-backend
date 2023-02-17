@@ -8,6 +8,7 @@ router.post("/novo", productController.uploadImage.array('uploadedImage', 10), p
 router.get("/lista", productController.list);
 router.get("/lista-leve", productController.listLight);
 router.post("/lista-iframe", productController.listRandomIframesByStore);
+router.post("/lista-titulo", productController.listProductsByTitle);
 router.get("/:id", userValidator.findById(), productController.find);
 router.put("/:id", verifyJWT, productController.uploadImage.array('uploadedImage', 10), productController.update);
 router.delete("/:id", verifyJWT, productController.remove);

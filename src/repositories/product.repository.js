@@ -54,6 +54,22 @@ const listRandomIframesByStore = async function (page, limit, idsToExclude) {
   return products;
 }
 
+const listProductsByTitle = async function (page, limit, searchTerm) {
+  const skip = (page - 1) * limit;
+  const products = await Product.findAll({
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+    offset: skip,
+    limit,
+    where: {
+      title: {
+        [Op.like]: `%${searchTerm}%`
+      }
+    }
+  });
+
+  return products;
+}
+
 const find = async function (id) {
   const product = await Product.findByPk(id);
   return product;
@@ -90,6 +106,7 @@ module.exports = {
   listLight,
   listWhere,
   listRandomIframesByStore,
+  listProductsByTitle,
   find,
   findWhere,
   update,

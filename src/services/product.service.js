@@ -40,6 +40,11 @@ const listRandomIframesByStore = async function (page, limit, idsToExclude) {
   return products;
 };
 
+const listProductsByTitle = async function (page, limit, title) {
+  const products = await productRepository.listProductsByTitle(page, limit, title);
+  return products;
+};
+
 const listWhere = async function (id, where) {
   const productExists = await productRepository.find(id);
 
@@ -128,6 +133,7 @@ module.exports = {
   listLight,
   listWhere,
   listRandomIframesByStore,
+  listProductsByTitle,
   find,
   update,
   remove,

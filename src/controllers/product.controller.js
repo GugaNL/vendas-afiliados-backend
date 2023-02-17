@@ -72,6 +72,20 @@ const listRandomIframesByStore = async function (req, res, next) {
   }
 };
 
+const listProductsByTitle = async function (req, res, next) {
+  try {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const { title } = req.body || "";
+
+    const response = await productService.listProductsByTitle(page, limit, title);
+
+    res.send({ success: true, products: response });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const find = async function (req, res, next) {
   try {
     const errors = validationResult(req);
@@ -190,6 +204,7 @@ module.exports = {
   list,
   listLight,
   listRandomIframesByStore,
+  listProductsByTitle,
   find,
   update,
   remove,
