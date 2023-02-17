@@ -56,7 +56,7 @@ const listRandomIframesByStore = async function (page, limit, idsToExclude) {
 
 const listProductsByTitle = async function (page, limit, searchTerm) {
   const skip = (page - 1) * limit;
-  const products = await Product.findAll({
+  const products = await Product.findAndCountAll({
     attributes: { exclude: ['createdAt', 'updatedAt'] },
     offset: skip,
     limit,
