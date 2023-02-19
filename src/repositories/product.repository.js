@@ -13,7 +13,7 @@ const create = async function (product) {
 const list = async function (page, limit) {
   const skip = (page - 1) * limit;
   const products = await Product.findAndCountAll({
-    attributes: { exclude: ['createdAt', 'updatedAt'] },
+    attributes: { exclude: ['data', 'createdAt', 'updatedAt'] },
     offset: skip,
     limit
   });
