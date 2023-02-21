@@ -1,11 +1,8 @@
 const productService = require("../services/product.service");
 const { validationResult } = require("express-validator");
 const createError = require("http-errors");
-const multer = require("multer");
-//const multerS3 = require("multer-s3");
-//const { S3Client } = require("@aws-sdk/client-s3");
+//const multer = require("multer");
 require("dotenv").config();
-//const path = require("path");
 
 const create = async function (req, res, next) {
   try {
@@ -15,10 +12,10 @@ const create = async function (req, res, next) {
       throw createError(422, { errors: errors.array() });
     }
 
-    if (req.files && req.files.length > 0) {
-      const { files = [] } = req;
-      req.body.images = files;
-    }
+    // if (req.files && req.files.length > 0) {
+    //   const { files = [] } = req;
+    //   req.body.images = files;
+    // }
 
     const response = await productService.create(req.body);
 
@@ -117,10 +114,10 @@ const update = async function (req, res, next) {
       throw createError(422, { errors: errors.array() });
     }
 
-    if (req.files && req.files.length > 0) {
-      const { files = [] } = req;
-      req.body.images = files;
-    }
+    // if (req.files && req.files.length > 0) {
+    //   const { files = [] } = req;
+    //   req.body.images = files;
+    // }
 
     const response = await productService.update(req.body, req.params.id);
 
@@ -154,50 +151,31 @@ const remove = async function (req, res, next) {
   }
 };
 
-//const dest = path.resolve(__dirname + "../../resources/uploads");
-
 //Local
-const storage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, "./resources/uploads");
-  },
-  filename: (req, file, callback) => {
-    callback(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-//AWS S3
-// const storageS3 = multerS3({
-//   s3: new S3Client({
-//     region: process.env.AWS_DEFAULT_REGION,
-//     credentials: { 
-//       accessKeyId: process.env.AWS_ACCESS_KEY,
-//       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-//     }
-//   }),
-//   bucket: "product-images",
-//   contentType: multerS3.AUTO_CONTENT_TYPE,
-//   acl: "public-read",
-//   key: (req, file, cb) => {
-//     cb(null, Date.now() + "-" + file.originalname);
+// const storage = multer.diskStorage({
+//   destination: (req, file, callback) => {
+//     callback(null, "./resources/uploads");
+//   },
+//   filename: (req, file, callback) => {
+//     callback(null, Date.now() + "-" + file.originalname);
 //   },
 // });
 
-var uploadImage = multer({
-  storage: storage,
-  fileFilter: (req, file, callback) => {
-    if (
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/jpg" ||
-      file.mimetype === "image/png"
-    ) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-      req.fileError = "Formato não válido";
-    }
-  },
-});
+// var uploadImage = multer({
+//   storage: storage,
+//   fileFilter: (req, file, callback) => {
+//     if (
+//       file.mimetype === "image/jpeg" ||
+//       file.mimetype === "image/jpg" ||
+//       file.mimetype === "image/png"
+//     ) {
+//       callback(null, true);
+//     } else {
+//       callback(null, false);
+//       req.fileError = "Formato não válido";
+//     }
+//   },
+// });
 
 module.exports = {
   create,
@@ -208,5 +186,5 @@ module.exports = {
   find,
   update,
   remove,
-  uploadImage,
+  //uploadImage,
 };

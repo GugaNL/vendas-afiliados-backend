@@ -25,7 +25,7 @@ app.use(handleError);
 //app.use('/resources/uploads', express.static('images'));
 
 const server = app.listen(process.env.PORT || 5000, () => {
-  console.log(`rodando na porta ${process.env.PORT}`);
+  console.log(`rodando`);
 });
 
 //Caso esteja rodando em canal HTTPS deve-se usar o protocolo wss:// para funcionar

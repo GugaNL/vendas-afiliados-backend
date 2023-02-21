@@ -13,13 +13,13 @@ const create = async function (product) {
     return createError(409, "Categoria não encontrada");
   }
 
-  const arrayImages = product.images || [];
+  //const arrayImages = product.images || [];
 
-  if (arrayImages.length > 0) {
-    product.imageFilename = arrayImages[0]?.filename;
-    product.imagePath = arrayImages[0]?.path;
-    product.imageMimetype = arrayImages[0]?.mimetype;
-  }
+  // if (arrayImages.length > 0) {
+  //   product.imageFilename = arrayImages[0]?.filename;
+  //   product.imagePath = arrayImages[0]?.path;
+  //   product.imageMimetype = arrayImages[0]?.mimetype;
+  // }
 
   const productCreated = await productRepository.create(product);
   return productCreated;
@@ -67,39 +67,39 @@ const find = async function (id) {
 };
 
 const update = async function (product, id) {
-  const arrayImages = product.images || [];
+  //const arrayImages = product.images || [];
   const productExists = await productRepository.find(id);
 
   if (!productExists) {
     //Remove image that was uploaded
-    if (arrayImages.length > 0) {
-      const filePath = arrayImages[0]?.path.replace(/\\/g, "/");
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          return;
-        }
-      });
-    }
+    // if (arrayImages.length > 0) {
+    //   const filePath = arrayImages[0]?.path.replace(/\\/g, "/");
+    //   fs.unlink(filePath, (err) => {
+    //     if (err) {
+    //       return;
+    //     }
+    //   });
+    // }
 
     return createError(404, "Produto não encontrado");
   }
 
-  if (arrayImages.length > 0) {
-    const productWithImage = await productRepository.find(id);
+  // if (arrayImages.length > 0) {
+  //   const productWithImage = await productRepository.find(id);
 
-    if (productWithImage.imagePath) {
-      const filePath = productWithImage.imagePath.replace(/\\/g, "/");
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          return;
-        }
-      });
-    }
+  //   if (productWithImage.imagePath) {
+  //     const filePath = productWithImage.imagePath.replace(/\\/g, "/");
+  //     fs.unlink(filePath, (err) => {
+  //       if (err) {
+  //         return;
+  //       }
+  //     });
+  //   }
 
-    product.imageFilename = arrayImages[0]?.filename;
-    product.imagePath = arrayImages[0]?.path;
-    product.imageMimetype = arrayImages[0]?.mimetype;
-  }
+  //   product.imageFilename = arrayImages[0]?.filename;
+  //   product.imagePath = arrayImages[0]?.path;
+  //   product.imageMimetype = arrayImages[0]?.mimetype;
+  // }
 
   await productRepository.update(product, id);
 
