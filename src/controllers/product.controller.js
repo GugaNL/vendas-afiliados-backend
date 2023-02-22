@@ -83,6 +83,20 @@ const listProductsByTitle = async function (req, res, next) {
   }
 };
 
+const listProductsByCategory = async function (req, res, next) {
+  try {
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const { categoryId } = req.body || "";
+
+    const response = await productService.listProductsByCategory(page, limit, categoryId);
+
+    res.send({ success: true, products: response });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const find = async function (req, res, next) {
   try {
     const errors = validationResult(req);
@@ -183,6 +197,7 @@ module.exports = {
   listLight,
   listRandomIframesByStore,
   listProductsByTitle,
+  listProductsByCategory,
   find,
   update,
   remove,
