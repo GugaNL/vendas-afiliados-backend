@@ -22,7 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       discount: DataTypes.INTEGER,
       obs1: DataTypes.STRING,
       obs2: DataTypes.STRING,
-      iframeUrl: DataTypes.STRING
+      iframeUrl: DataTypes.STRING,
+      imgUrlTag1: DataTypes.STRING,
+      imgUrlTag2: DataTypes.STRING,
+      imgUrlTag3: DataTypes.STRING,
     },
     {
       sequelize,
