@@ -10,6 +10,7 @@ router.get("/lista", productController.list);
 router.get("/lista-leve", productController.listLight);
 router.post("/lista-iframe", productController.listRandomIframesByStore);
 router.post("/lista-titulo", productController.listProductsByTitle);
+router.post("/lista-categoria", productController.listProductsByCategory);
 router.get("/:id", userValidator.findById(), productController.find);
 // router.put("/:id", verifyJWT, productController.uploadImage.array('uploadedImage', 10), productController.update);
 router.put("/:id", verifyJWT, productController.update);

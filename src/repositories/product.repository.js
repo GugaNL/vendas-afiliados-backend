@@ -70,6 +70,22 @@ const listProductsByTitle = async function (page, limit, searchTerm) {
   return products;
 }
 
+const listProductsByCategory = async function (page, limit, category) {
+  const skip = (page - 1) * limit;
+  const products = await Product.findAndCountAll({
+    attributes: { exclude: ['createdAt', 'updatedAt'] },
+    offset: skip,
+    limit,
+    where: {
+      categoryId: {
+        [Op.eq]: category
+      }
+    }
+  });
+
+  return products;
+}
+
 const find = async function (id) {
   const product = await Product.findByPk(id);
   return product;
@@ -107,6 +123,7 @@ module.exports = {
   listWhere,
   listRandomIframesByStore,
   listProductsByTitle,
+  listProductsByCategory,
   find,
   findWhere,
   update,
