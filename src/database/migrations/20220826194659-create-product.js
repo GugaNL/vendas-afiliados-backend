@@ -57,6 +57,15 @@ module.exports = {
       iframeUrl: {
         type: Sequelize.STRING,
       },
+      imgUrlTag1: {
+        type: Sequelize.STRING,
+      },
+      imgUrlTag2: {
+        type: Sequelize.STRING,
+      },
+      imgUrlTag3: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
