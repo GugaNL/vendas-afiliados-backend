@@ -48,7 +48,8 @@ const listRandomIframesByStore = async function (page, limit, idsToExclude) {
       iframeUrl: {
         [Op.not]: null
       }
-    }
+    },
+    limit
   });
 
   return products;
